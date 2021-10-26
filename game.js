@@ -44,6 +44,10 @@ function start(){
 
     //create new array for bees
     bees = new Array();
+
+    //take start time
+    lastStingTime = new Date();
+
     //create bees
     makeBees();
 
@@ -176,6 +180,7 @@ function moveBees(){
         let dx = getRandomInt(2 * speed) - speed;
         let dy = getRandomInt(2 * speed) - speed;
         bees[i].move(dx,dy);
+        isHit(bees[i],bear);//we add this to count stings
     }
 }
 
@@ -188,3 +193,45 @@ function updateBees(){ //update loop for game
     updateTimer = setTimeout("updateBees()",period);
 }
 
+function isHit(defender,offender){
+    if (overlap(defender,offender)){
+        let score = hits.innerHTML;
+        score = Number(score) + 1; //increment the score
+        hits.innerHTML = score; //display the new score
+        //Calculate longest duration
+        let newStingTime = new Date();
+        let thisDuration = newStingTime - lastStingTime;
+        lastStingTime = newStingTime;
+        let longestDuration = Number(duration.innerHTML);
+        if (longestDuration == 0){
+            longestDuration = thisDuration;
+        } else {
+            if (longestDuration < thisDuration)
+            longestDuration = thisDuration;
+        }
+        document.getElementById("duration").innerHTML = longestDuration;
+    } 
+}
+
+function overlap(element1,element2){
+    //consider the two rectangles wrapping the two elements
+    //rectangle of the first element
+    left1 = element1.HTMLElement.offsetLeft;
+    top1 = eleemnt1.HTMLElement.offsetTop;
+    right1 =element1.HTMLElement.offsetLeft + element1.HTMLElement.offsetWidth;
+    bottom1 = element1.HTMLElement.offsetTop + element1.HTMLElement.offsetHeight;
+    //rectanlge of the second element
+    left2 = element2.HTMLElement.offsetLeft; //e2x
+    top2 = element2.HTMLElement.offsetTop; //e2y
+    right2 = element2.HTMLElement.offsetLeft + element2.HTMLElement.offsetWidth;
+    bottom2 = element2.HTMLElement.offsetTop + element2.HTMLElement.offsetHeight;
+    //calculate the intersection of the two rectangles
+    x_intersect = Math.max(0, Math.min(right1,right2) - Math.max(left1,left2));
+    y_intersect = Math.max(0,Math.min(bottom1,bottom2) - Math.max(top1,top2));
+    intersectArea = x_intersect * y_intersect;
+    //if intersection is nill no hit
+    if (intersectArea == 0 || isNaN(intersectArea)){
+        return false;
+    }
+    return true;
+}
