@@ -13,6 +13,8 @@ function Bear(){
     }
 
     this.display = function(){
+        //adjust the position of bee and display it
+        this.fitBounds(); //add this to adjust to bounds
         this.HTMLElement.style.left = this.x +"px";
         this.HTMLElement.style.top = this.y + "px";
         this.HTMLElement.style.display = "block";
@@ -26,11 +28,19 @@ function Bear(){
         let t = parent.offsetTop;
         let w = parent.offsetWidth;
         let h = parent.offsetHeight;
-        if (this.x < 0) this.x = 0;
-        if (this.x >w -iw) this.x = w - iw;
-        if (this.y < 0) this.y = 0;
-        if (this.y > h-ih) this.y = h - ih;
+        if (this.x < 0) 
+            this.x = 0;
+        if (this.x >w -iw) 
+            this.x = w - iw;
+        if (this.y < 0) 
+            this.y = 0;
+        if (this.y > h-ih) 
+            this.y = h - ih;
 
+    }
+
+    this.setSpeed = function(){
+        bear.dBear = document.getElementById("speedBear").value;
     }
 
 }
@@ -127,6 +137,11 @@ class Bee {
     }
 }
 
+function getRandomInt(n){
+    return Math.floor(Math.random() * n);
+}
+
+
 function createBeeImg(wNum){
     //get dimension and position of board div
     let boardDiv = document.getElementById("board");
@@ -188,7 +203,7 @@ function updateBees(){ //update loop for game
     //move the bees randomly
     moveBees();
     //use a fixed update period
-    let period = 10; //modify this to control refresh period
+    let period = document.getElementById("periodTimer").value; //modify this to control refresh period
     //update the timer for the next move
     updateTimer = setTimeout("updateBees()",period);
 }
@@ -217,7 +232,7 @@ function overlap(element1,element2){
     //consider the two rectangles wrapping the two elements
     //rectangle of the first element
     left1 = element1.HTMLElement.offsetLeft;
-    top1 = eleemnt1.HTMLElement.offsetTop;
+    top1 = element1.HTMLElement.offsetTop;
     right1 =element1.HTMLElement.offsetLeft + element1.HTMLElement.offsetWidth;
     bottom1 = element1.HTMLElement.offsetTop + element1.HTMLElement.offsetHeight;
     //rectanlge of the second element
