@@ -1,3 +1,8 @@
+var bear;
+var bees;
+var updateTimer;
+var lastStingTime;
+
 function Bear(){
     this.dBear = 100;
     this.HTMLElement = document.getElementById("bear");
@@ -38,11 +43,10 @@ function Bear(){
             this.y = h - ih;
 
     }
+}
 
-    this.setSpeed = function(){
-        bear.dBear = document.getElementById("speedBear").value;
-    }
-
+function setSpeed(){
+    bear.dBear = document.getElementById("speedBear").value;
 }
 
 function start(){
@@ -50,8 +54,8 @@ function start(){
     bear  = new Bear();
 
     //Add an event listner to the keypress event.
-    document.addEventListener("keydown",moveBear,false)
-
+    document.addEventListener("keydown",moveBear,false);
+    
     //create new array for bees
     bees = new Array();
 
@@ -235,7 +239,7 @@ function overlap(element1,element2){
     top1 = element1.HTMLElement.offsetTop;
     right1 =element1.HTMLElement.offsetLeft + element1.HTMLElement.offsetWidth;
     bottom1 = element1.HTMLElement.offsetTop + element1.HTMLElement.offsetHeight;
-    //rectanlge of the second element
+    //rectangle of the second element
     left2 = element2.HTMLElement.offsetLeft; //e2x
     top2 = element2.HTMLElement.offsetTop; //e2y
     right2 = element2.HTMLElement.offsetLeft + element2.HTMLElement.offsetWidth;
