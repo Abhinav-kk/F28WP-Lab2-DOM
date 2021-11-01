@@ -209,7 +209,7 @@ function moveBees(){
 function addBee(){
     var bee = new Bee(1);
     bee.display;
-    bee.push(bee);
+    bees.push(bee);
 }
 
 function updateBees(){ //update loop for game
