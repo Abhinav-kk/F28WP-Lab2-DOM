@@ -2,6 +2,8 @@ var bear;
 var bees;
 var updateTimer;
 var lastStingTime;
+//take start time
+lastStingTime = new Date();
 
 function Bear(){
     this.dBear = 100;
@@ -58,9 +60,6 @@ function start(){
     
     //create new array for bees
     bees = new Array();
-
-    //take start time
-    lastStingTime = new Date();
 
     //create bees
     makeBees();
@@ -145,6 +144,10 @@ function getRandomInt(n){
     return Math.floor(Math.random() * n);
 }
 
+function restart(){
+    location.reload();;
+}
+
 
 function createBeeImg(wNum){
     //get dimension and position of board div
@@ -203,13 +206,24 @@ function moveBees(){
     }
 }
 
+function addBee(){
+    var bee = new Bee(1);
+    bee.display;
+    bee.push(bee);
+}
+
 function updateBees(){ //update loop for game
     //move the bees randomly
     moveBees();
     //use a fixed update period
     let period = document.getElementById("periodTimer").value; //modify this to control refresh period
-    //update the timer for the next move
-    updateTimer = setTimeout("updateBees()",period);
+    if (hits.innerHTML >= 1000){
+        alert("Game Over");
+    }
+    else{
+        //update the timer for the next move
+        updateTimer = setTimeout("updateBees()",period);
+    }
 }
 
 function isHit(defender,offender){
